@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TodoTemperatura.com | Aire Acondicionado y Climatización</title>
+  <meta name="description" content="Especialistas en aire acondicionado, climatización y calefacción. Venta e instalación de splits, multisplits y sistemas de conductos. Precios directos de distribuidor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Inter', system-ui, sans-serif; color: #1a1a2e; background: #fff; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ===== VARIABLES ===== */
+:root {
+  --primary: #e63946;
+  --primary-dark: #c1121f;
+  --secondary: #0077b6;
+  --accent: #48cae4;
+  --dark: #1a1a2e;
+  --gray: #6c757d;
+  --light: #f8f9fa;
+  --border: #e9ecef;
+  --shadow: 0 4px 24px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --container: 1200px;
+}
+
+/* ===== CONTAINER ===== */
+.container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 15px;
+  transition: all .2s; gap: 8px; white-space: nowrap;
+}
+.btn--primary { background: var(--primary); color: #fff; }
+.btn--primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn--outline { border: 2px solid rgba(255,255,255,.6); color: #fff; }
+.btn--outline:hover { background: rgba(255,255,255,.15); }
+.btn--white { background: #fff; color: var(--dark); }
+.btn--white:hover { background: #f0f0f0; }
+.btn--full { width: 100%; }
+.btn--lg { padding: 18px 32px; font-size: 16px; }
+.btn--whatsapp { background: #25d366; color: #fff; border-radius: 8px; padding: 14px 24px; font-weight: 600; width: 100%; justify-content: center; }
+.btn--whatsapp:hover { background: #1da851; }
+
+/* ===== SECTION UTILS ===== */
+.section-badge {
+  display: inline-block; background: #fff0f0; color: var(--primary);
+  font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+}
+.section-badge--light { background: rgba(255,255,255,.15); color: #fff; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-title { font-size: clamp(26px, 4vw, 36px); font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+.section-title--light { color: #fff; }
+.section-sub { color: var(--gray); font-size: 16px; max-width: 560px; margin: 0 auto; }
+.section-sub--light { color: rgba(255,255,255,.8); }
+
+/* ===== HEADER ===== */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s;
+}
+.header.scrolled { box-shadow: var(--shadow); }
+.header__inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo__img { height: 44px; width: auto; }
+.logo__text { font-size: 22px; font-weight: 800; color: var(--dark); letter-spacing: -.5px; }
+.logo__text span { color: var(--primary); }
+.nav__list { display: flex; align-items: center; gap: 4px; }
+.nav__link { padding: 8px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; color: var(--dark); transition: all .2s; }
+.nav__link:hover { color: var(--primary); background: #fff0f0; }
+.nav__link--cta { background: var(--primary); color: #fff; margin-left: 8px; }
+.nav__link--cta:hover { background: var(--primary-dark); }
+.hamburger { display: none; flex-direction: column; gap: 5px; width: 36px; height: 36px; justify-content: center; align-items: center; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; transition: all .3s; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  overflow: hidden; padding-top: 72px;
+}
+.hero__bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 40%, #16213e 70%, #0f3460 100%);
+}
+.hero__bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(230,57,70,.18) 0%, transparent 60%);
+}
+.hero__content { position: relative; z-index: 1; padding: 80px 0; }
+.hero__badge {
+  display: inline-block; background: rgba(230,57,70,.2); border: 1px solid rgba(230,57,70,.4);
+  color: #ff8fa3; font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
+}
+.hero__title {
+  font-size: clamp(36px, 6vw, 68px); font-weight: 800; color: #fff; line-height: 1.1;
+  margin-bottom: 20px; max-width: 700px;
+}
+.hero__title span { color: var(--accent); }
+.hero__sub { color: rgba(255,255,255,.75); font-size: clamp(16px, 2vw, 19px); margin-bottom: 36px; max-width: 560px; line-height: 1.65; }
+.hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+.hero__stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; }
+.stat__num { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
+.stat__label { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 4px; }
+.hero__scroll { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); }
+.hero__scroll span {
+  display: block; width: 2px; height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+  margin: 0 auto;
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim { 0%, 100% { opacity: 0.5; transform: scaleY(1); } 50% { opacity: 1; transform: scaleY(1.2); } }
+
+/* ===== VENTAJAS ===== */
+.ventajas { padding: 60px 0; background: var(--light); }
+.ventajas__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; }
+.ventaja { background: #fff; border-radius: var(--radius); padding: 28px; border: 1px solid var(--border); transition: box-shadow .2s; }
+.ventaja:hover { box-shadow: var(--shadow); }
+.ventaja__icon { font-size: 32px; margin-bottom: 14px; }
+.ventaja h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.ventaja p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+/* ===== PRODUCTOS ===== */
+.productos { padding: 90px 0; }
+.filtros { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
+.filtro {
+  padding: 10px 22px; border-radius: 30px; font-size: 14px; font-weight: 600;
+  border: 2px solid var(--border); color: var(--gray); transition: all .2s;
+}
+.filtro:hover, .filtro.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.productos__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
+.producto-card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  overflow: hidden; transition: all .25s; position: relative;
+}
+.producto-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.producto-card.hidden { display: none; }
+.producto-card__badge {
+  position: absolute; top: 16px; left: 16px; z-index: 1;
+  background: var(--primary); color: #fff; font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px; letter-spacing: .06em;
+}
+.producto-card__img-wrap { height: 200px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+/* Placeholder visuals per category using pure CSS */
+.producto-card__img {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 64px; font-weight: 900; letter-spacing: -2px;
+}
+.producto-card__img--split   { background: linear-gradient(135deg,#e8f4fd,#cde8f8); color: #0077b6; }
+.producto-card__img--split::after   { content: '❄'; }
+.producto-card__img--split2  { background: linear-gradient(135deg,#fdf3e8,#fce0c0); color: #e63946; }
+.producto-card__img--split2::after  { content: '🌡'; }
+.producto-card__img--multi   { background: linear-gradient(135deg,#e8fde8,#c3e6cb); color: #2d6a4f; }
+.producto-card__img--multi::after   { content: '🔀'; }
+.producto-card__img--cassette{ background: linear-gradient(135deg,#f0e8fd,#dac5f5); color: #6c3fc4; }
+.producto-card__img--cassette::after{ content: '⬛'; }
+.producto-card__img--conductos{ background: linear-gradient(135deg,#fde8e8,#f5c5c5); color: #c1121f; }
+.producto-card__img--conductos::after{ content: '🌀'; }
+.producto-card__body { padding: 24px; }
+.producto-card__serie { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .08em; }
+.producto-card__name { font-size: 19px; font-weight: 800; margin: 6px 0 12px; }
+.producto-card__tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: var(--light); color: var(--gray); border: 1px solid var(--border); }
+.tag--green { background: #d4edda; color: #155724; border-color: #c3e6cb; }
+.producto-card__features { margin-bottom: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
+.producto-card__features li { font-size: 13px; color: var(--gray); padding-left: 14px; position: relative; }
+.producto-card__features li::before { content: '✓'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+.producto-card__precio { margin-bottom: 16px; padding: 14px; background: var(--light); border-radius: 8px; }
+.precio__desde { display: block; font-size: 12px; color: var(--gray); margin-bottom: 2px; }
+.precio__valor { display: block; font-size: 24px; font-weight: 800; color: var(--dark); }
+.precio__iva { display: block; font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+/* ===== CTA BAND ===== */
+.cta-band { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 60px 0; }
+.cta-band__inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.cta-band__text h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 800; color: #fff; margin-bottom: 8px; }
+.cta-band__text p { color: rgba(255,255,255,.85); font-size: 16px; }
+
+/* ===== MARCAS ===== */
+.marcas { padding: 90px 0; background: var(--light); }
+.marcas__cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+.marca-card { background: #fff; border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--border); transition: box-shadow .2s; }
+.marca-card:hover { box-shadow: var(--shadow); }
+.marca-card__logo { display: inline-block; background: var(--dark); color: #fff; font-weight: 900; font-size: 18px; padding: 6px 16px; border-radius: 6px; margin-bottom: 16px; letter-spacing: .05em; }
+.marca-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+.marca-card p { color: var(--gray); font-size: 14px; margin-bottom: 16px; line-height: 1.6; }
+.marca-card ul li { font-size: 14px; color: var(--gray); padding: 4px 0 4px 20px; position: relative; border-bottom: 1px solid var(--border); }
+.marca-card ul li:last-child { border: none; }
+.marca-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--primary); }
+
+/* ===== SERVICIOS ===== */
+.servicios { padding: 90px 0; }
+.servicios__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+.servicio { padding: 28px; border-radius: var(--radius); border: 1px solid var(--border); transition: all .2s; position: relative; overflow: hidden; }
+.servicio:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.servicio:hover .servicio__num { color: var(--primary); }
+.servicio__num { font-size: 48px; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 12px; transition: color .2s; }
+.servicio h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.servicio p { font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+/* ===== NOSOTROS ===== */
+.nosotros { padding: 90px 0; background: var(--light); }
+.nosotros__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.nosotros__text .section-badge { margin-bottom: 12px; }
+.nosotros__text .section-title { text-align: left; font-size: clamp(24px, 3.5vw, 34px); }
+.nosotros__text p { color: var(--gray); margin-bottom: 16px; font-size: 15px; line-height: 1.7; }
+.nosotros__nums { display: flex; gap: 32px; margin-top: 32px; }
+.nos-num span { display: block; font-size: 26px; font-weight: 800; color: var(--primary); }
+.nos-num p { font-size: 13px; color: var(--gray); }
+.nosotros__card-wrap { display: flex; flex-direction: column; gap: 16px; }
+.nosotros__card { background: #fff; border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); border-left: 4px solid var(--primary); }
+.nosotros__card p { color: var(--gray); font-size: 14px; line-height: 1.7; font-style: italic; margin-bottom: 10px; }
+.nosotros__card strong { font-size: 13px; color: var(--dark); }
+
+/* ===== FAQ ===== */
+.faq { padding: 90px 0; }
+.faq__list { max-width: 800px; margin: 0 auto; }
+.faq__item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+.faq__q {
+  width: 100%; text-align: left; padding: 20px 24px; font-size: 16px; font-weight: 600;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  background: #fff; transition: background .2s;
+}
+.faq__q:hover { background: var(--light); }
+.faq__q span { font-size: 22px; color: var(--primary); flex-shrink: 0; transition: transform .3s; line-height: 1; }
+.faq__item.open .faq__q span { transform: rotate(45deg); }
+.faq__a { display: none; padding: 0 24px 20px; }
+.faq__item.open .faq__a { display: block; }
+.faq__a p { color: var(--gray); font-size: 15px; line-height: 1.7; }
+
+/* ===== CONTACTO ===== */
+.contacto { padding: 90px 0; background: linear-gradient(135deg, #0d1b2a, #16213e); }
+.contacto__inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px; align-items: start; }
+.contacto__form { background: #fff; border-radius: var(--radius-lg); padding: 40px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--dark); }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 15px; font-family: inherit;
+  color: var(--dark); background: #fff; transition: border-color .2s; outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+.form-group textarea { resize: vertical; }
+.form__legal { text-align: center; font-size: 12px; color: var(--gray); margin-top: 10px; }
+.form__legal a { color: var(--primary); }
+.contacto__info { display: flex; flex-direction: column; gap: 20px; padding-top: 10px; }
+.info-block { display: flex; align-items: flex-start; gap: 16px; background: rgba(255,255,255,.07); border-radius: var(--radius); padding: 20px; }
+.info-block__icon { font-size: 24px; flex-shrink: 0; }
+.info-block strong { color: #fff; display: block; font-size: 15px; margin-bottom: 4px; }
+.info-block p { color: rgba(255,255,255,.8); font-size: 15px; }
+.info-block small { color: rgba(255,255,255,.5); font-size: 12px; }
+.info-block--whatsapp { background: none; padding: 0; }
+
+/* ===== FOOTER ===== */
+.footer { background: #0d1117; padding: 60px 0 0; }
+.footer__inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
+.footer__brand__name { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.footer__brand__name span { color: var(--primary); }
+.footer__brand p { color: rgba(255,255,255,.5); font-size: 14px; line-height: 1.65; max-width: 280px; }
+.footer__links h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .06em; }
+.footer__links ul li { margin-bottom: 10px; }
+.footer__links ul li a { color: rgba(255,255,255,.55); font-size: 14px; transition: color .2s; }
+.footer__links ul li a:hover { color: var(--accent); }
+.footer__links ul li { color: rgba(255,255,255,.55); font-size: 14px; }
+.footer__bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 20px 0; }
+.footer__bottom .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer__bottom p { color: rgba(255,255,255,.35); font-size: 13px; }
+.footer__bottom a { color: rgba(255,255,255,.45); }
+.footer__bottom a:hover { color: var(--accent); }
+
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float {
+  position: fixed; bottom: 28px; right: 28px; z-index: 99;
+  width: 56px; height: 56px; background: #25d366; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  transition: transform .2s, box-shadow .2s;
+  animation: waPulse 2.5s ease-in-out infinite;
+}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,.55); animation: none; }
+.whatsapp-float svg { width: 28px; height: 28px; color: #fff; }
+@keyframes waPulse { 0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,.4); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,.7); } }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .nosotros__inner { grid-template-columns: 1fr; }
+  .contacto__inner { grid-template-columns: 1fr; }
+  .footer__inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav { display: none; position: fixed; inset: 72px 0 0; background: #fff; padding: 24px; z-index: 99; overflow-y: auto; }
+  .nav.open { display: flex; flex-direction: column; }
+  .nav__list { flex-direction: column; gap: 8px; }
+  .nav__link { padding: 14px 18px; font-size: 16px; }
+  .nav__link--cta { margin-left: 0; }
+  .hamburger { display: flex; }
+  .hero__stats { gap: 24px; }
+  .cta-band__inner { flex-direction: column; text-align: center; }
+  .footer__inner { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .nosotros__nums { flex-wrap: wrap; gap: 20px; }
+}
+@media (max-width: 480px) {
+  .hero__actions { flex-direction: column; }
+  .hero__actions .btn { width: 100%; text-align: center; }
+  .productos__grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="#" class="logo">
+      <!-- Si tienes logo.png en la misma carpeta, cambia esto: -->
+      <!-- <img src="logo.png" alt="TodoTemperatura.com" class="logo__img" /> -->
+      <span class="logo__text">Todo<span>Temperatura</span>.com</span>
+    </a>
+    <nav class="nav" id="nav">
+      <ul class="nav__list">
+        <li><a href="#productos" class="nav__link">Productos</a></li>
+        <li><a href="#marcas" class="nav__link">Marcas</a></li>
+        <li><a href="#servicios" class="nav__link">Servicios</a></li>
+        <li><a href="#nosotros" class="nav__link">Nosotros</a></li>
+        <li><a href="#contacto" class="nav__link nav__link--cta">Solicitar Presupuesto</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="container hero__content">
+    <span class="hero__badge">Distribuidor Exclusivo NORD 2026</span>
+    <h1 class="hero__title">La temperatura perfecta,<br /><span>en cada rincón</span></h1>
+    <p class="hero__sub">Venta e instalación de aires acondicionados de alta eficiencia.<br />Splits, multisplits, cassettes y conductos al mejor precio.</p>
+    <div class="hero__actions">
+      <a href="#productos" class="btn btn--primary">Ver productos</a>
+      <a href="#contacto" class="btn btn--outline">Pedir presupuesto gratis</a>
+    </div>
+    <div class="hero__stats">
+      <div class="stat"><span class="stat__num">+500</span><span class="stat__label">Instalaciones</span></div>
+      <div class="stat"><span class="stat__num">A++</span><span class="stat__label">Eficiencia</span></div>
+      <div class="stat"><span class="stat__num">10 años</span><span class="stat__label">Garantía</span></div>
+      <div class="stat"><span class="stat__num">24h</span><span class="stat__label">Respuesta</span></div>
+    </div>
+  </div>
+  <div class="hero__scroll"><span></span></div>
+</section>
+
+<!-- VENTAJAS -->
+<section class="ventajas">
+  <div class="container">
+    <div class="ventajas__grid">
+      <div class="ventaja">
+        <div class="ventaja__icon">❄️</div>
+        <h3>Instalación profesional</h3>
+        <p>Técnicos certificados con más de 10 años de experiencia en climatización.</p>
+      </div>
+      <div class="ventaja">
+        <div class="ventaja__icon">💰</div>
+        <h3>Precio de distribuidor</h3>
+        <p>Somos distribuidores exclusivos. Sin intermediarios, precios más bajos garantizados.</p>
+      </div>
+      <div class="ventaja">
+        <div class="ventaja__icon">⚡</div>
+        <h3>Alta eficiencia A++</h3>
+        <p>Equipos de última generación que reducen hasta un 50% tu factura eléctrica.</p>
+      </div>
+      <div class="ventaja">
+        <div class="ventaja__icon">🛡️</div>
+        <h3>Garantía total</h3>
+        <p>Hasta 10 años de garantía en equipos y 2 años en la instalación.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="productos" id="productos">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Catálogo 2026</span>
+      <h2 class="section-title">Nuestros equipos</h2>
+      <p class="section-sub">Gama completa de climatización para hogar y negocio</p>
+    </div>
+    <div class="filtros">
+      <button class="filtro active" data-filter="all">Todos</button>
+      <button class="filtro" data-filter="split">Splits 1x1</button>
+      <button class="filtro" data-filter="multi">Multisplits</button>
+      <button class="filtro" data-filter="cassette">Cassettes</button>
+      <button class="filtro" data-filter="conductos">Conductos</button>
+    </div>
+    <div class="productos__grid">
+
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--split"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">KARELIA</span>
+          <h3 class="producto-card__name">Split Pared 2,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER 6.1</span><span class="tag">Wi-Fi incluido</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 2,6 kW</li><li>Calefacción: 2,8 kW</li>
+            <li>Nivel sonoro: 38 dB(A)</li><li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">412,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--split"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">KARELIA</span>
+          <h3 class="producto-card__name">Split Pared 3,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER 6.1</span><span class="tag">Wi-Fi incluido</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 3,5 kW</li><li>Calefacción: 3,9 kW</li>
+            <li>Nivel sonoro: 38 dB(A)</li><li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">447,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--split"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">KARELIA</span>
+          <h3 class="producto-card__name">Split Pared 5,0 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER 6.1</span><span class="tag">Wi-Fi incluido</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 4,9 kW</li><li>Calefacción: 4,9 kW</li>
+            <li>Nivel sonoro: 44 dB(A)</li><li>SCOP A+</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">852,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--split2"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA</span>
+          <h3 class="producto-card__name">Split Pared 2,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER</span><span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 2,5 kW</li><li>Calefacción: 2,8 kW</li>
+            <li>Bajo consumo</li><li>Control App</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">515,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--split2"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA</span>
+          <h3 class="producto-card__name">Split Pared 3,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER</span><span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 3,5 kW</li><li>Calefacción: 3,9 kW</li>
+            <li>Bajo consumo</li><li>Control App</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">535,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--split2"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA</span>
+          <h3 class="producto-card__name">Split Pared 5,0 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER</span><span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 5,0 kW</li><li>Calefacción: 5,5 kW</li>
+            <li>Bajo consumo</li><li>Control App</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.090,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="multi">
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--multi"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA MULTI</span>
+          <h3 class="producto-card__name">2×1 — Hasta 2 estancias</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">Inverter</span><span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>U. exterior 2×1 40/50</li><li>Compatible Esencia + Eira</li>
+            <li>Varias combinaciones</li><li>Control individual</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Exterior desde</span>
+            <span class="precio__valor">930,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="multi">
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--multi"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA MULTI</span>
+          <h3 class="producto-card__name">3×1 — Hasta 3 estancias</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">Inverter</span><span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>U. exterior 3×1 60/75</li><li>Compatible Esencia + Eira</li>
+            <li>Ideal viviendas completas</li><li>Control individual</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Exterior desde</span>
+            <span class="precio__valor">1.094,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="cassette">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--cassette"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Mini Cassette 60×60</span>
+          <h3 class="producto-card__name">Cassette 3,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER 7.8</span><span class="tag">4 vías</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Panel 60×60 cm (estándar)</li><li>Distribución 4 direcciones</li>
+            <li>34 dB(A) silencioso</li><li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.337,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="cassette">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--cassette"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Mini Cassette 60×60</span>
+          <h3 class="producto-card__name">Cassette 5,0 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER 6.3</span><span class="tag">4 vías</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Panel 60×60 cm (estándar)</li><li>Distribución 4 direcciones</li>
+            <li>39 dB(A)</li><li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.527,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="cassette">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--cassette"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Cassette 90×90</span>
+          <h3 class="producto-card__name">Cassette 10,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">SEER</span><span class="tag">4 vías</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Panel 90×90 cm</li><li>Grandes superficies</li>
+            <li>Control centralizado</li><li>Alta potencia</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.870,00 €</span>
+            <span class="precio__iva">PVP · IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-category="conductos">
+        <div class="producto-card__img-wrap"><div class="producto-card__img producto-card__img--conductos"></div></div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Conductos</span>
+          <h3 class="producto-card__name">Conductos 3,5 / 5,2 / 7,1 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span><span class="tag">Invisible</span><span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Instalación oculta en falso techo</li><li>Distribución toda la vivienda</li>
+            <li>Mando a distancia incluido</li><li>Compatible multisplit</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Consultar precio</span>
+            <span class="precio__valor">A medida</span>
+            <span class="precio__iva">Según instalación</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="container cta-band__inner">
+    <div class="cta-band__text">
+      <h2>¿No sabes qué equipo necesitas?</h2>
+      <p>Te asesoramos gratis. Calculamos la potencia ideal para tu espacio.</p>
+    </div>
+    <a href="#contacto" class="btn btn--white">Asesoramiento gratuito →</a>
+  </div>
+</section>
+
+<!-- MARCAS -->
+<section class="marcas" id="marcas">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Distribuidores exclusivos</span>
+      <h2 class="section-title">Marca NORD</h2>
+      <p class="section-sub">Distribuidor exclusivo nacional del catálogo NORD 2026. Máxima eficiencia energética al precio más competitivo.</p>
+    </div>
+    <div class="marcas__cards">
+      <div class="marca-card">
+        <div class="marca-card__logo">NORD</div>
+        <h3>Karelia</h3>
+        <p>Split de pared de nueva generación. Wi-Fi integrado, eficiencia A++ y diseño ultra-slim.</p>
+        <ul>
+          <li>2,5 / 3,5 / 5,0 kW</li>
+          <li>Clase A++ SEER 6.1</li>
+          <li>SCOP A+++</li>
+          <li>App integrada</li>
+        </ul>
+      </div>
+      <div class="marca-card">
+        <div class="marca-card__logo">NORD</div>
+        <h3>Esencia</h3>
+        <p>Gama premium para viviendas y locales. Compatible con sistemas multisplit.</p>
+        <ul>
+          <li>2,5 / 3,5 / 5,0 / 7,1 kW</li>
+          <li>Multisplit 2×1 / 3×1 / 4×1</li>
+          <li>Control App</li>
+          <li>Alta eficiencia</li>
+        </ul>
+      </div>
+      <div class="marca-card">
+        <div class="marca-card__logo">NORD</div>
+        <h3>Eira</h3>
+        <p>Soluciones profesionales: cassettes 60×60 y 90×90, y conductos para instalación oculta.</p>
+        <ul>
+          <li>Cassette Mini 60×60</li>
+          <li>Cassette 90×90</li>
+          <li>Conductos 35–140 kW</li>
+          <li>Mando inteligente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="servicios" id="servicios">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Lo que hacemos</span>
+      <h2 class="section-title">Servicios integrales de climatización</h2>
+      <p class="section-sub">Desde la venta hasta la instalación y el mantenimiento. Un único interlocutor para todo.</p>
+    </div>
+    <div class="servicios__grid">
+      <div class="servicio"><div class="servicio__num">01</div><h3>Asesoramiento técnico</h3><p>Analizamos tu espacio y te recomendamos el equipo más adecuado y eficiente para tu caso.</p></div>
+      <div class="servicio"><div class="servicio__num">02</div><h3>Venta de equipos</h3><p>Suministramos equipos NORD originales con toda la documentación y garantía del fabricante.</p></div>
+      <div class="servicio"><div class="servicio__num">03</div><h3>Instalación certificada</h3><p>Técnicos homologados para instalaciones en viviendas, locales, oficinas e industria.</p></div>
+      <div class="servicio"><div class="servicio__num">04</div><h3>Mantenimiento y revisión</h3><p>Contratos de mantenimiento preventivo para alargar la vida útil de tu equipo.</p></div>
+      <div class="servicio"><div class="servicio__num">05</div><h3>Reparación urgente</h3><p>Servicio técnico rápido. Si tu equipo falla, respondemos en menos de 24h.</p></div>
+      <div class="servicio"><div class="servicio__num">06</div><h3>Financiación</h3><p>Financia tu equipo e instalación en cómodas cuotas. Sin intereses hasta 12 meses.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section class="nosotros" id="nosotros">
+  <div class="container nosotros__inner">
+    <div class="nosotros__text">
+      <span class="section-badge">Sobre nosotros</span>
+      <h2 class="section-title">Expertos en climatización<br />con más de una década de experiencia</h2>
+      <p>En <strong>TodoTemperatura.com</strong> llevamos más de 10 años ofreciendo soluciones de climatización para particulares, empresas y comunidades. Somos distribuidores exclusivos de la marca NORD en España, lo que nos permite ofrecer los mejores precios del mercado con la máxima garantía.</p>
+      <p>Nuestro equipo de técnicos certificados trabaja en toda la zona para garantizar una instalación perfecta y un servicio posventa sin igual.</p>
+      <div class="nosotros__nums">
+        <div class="nos-num"><span>+500</span><p>Instalaciones realizadas</p></div>
+        <div class="nos-num"><span>10 años</span><p>De experiencia</p></div>
+        <div class="nos-num"><span>4,9★</span><p>Valoración media</p></div>
+      </div>
+    </div>
+    <div class="nosotros__visual">
+      <div class="nosotros__card-wrap">
+        <div class="nosotros__card">
+          <p>"Instalaron el aire acondicionado en un día. Profesionales, limpios y muy buen precio. Totalmente recomendable."</p>
+          <strong>— María G., Madrid</strong>
+        </div>
+        <div class="nosotros__card">
+          <p>"Llevamos 3 años con el sistema multisplit que nos instalaron y funciona perfecto. El servicio posventa es excelente."</p>
+          <strong>— Carlos F., Barcelona</strong>
+        </div>
+        <div class="nosotros__card">
+          <p>"El mejor precio que encontré para el modelo que quería. Además la instalación fue impecable. 100% recomendados."</p>
+          <strong>— Ana M., Valencia</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Preguntas frecuentes</span>
+      <h2 class="section-title">Resolvemos tus dudas</h2>
+    </div>
+    <div class="faq__list">
+      <div class="faq__item">
+        <button class="faq__q">¿Qué potencia necesito para mi habitación? <span>+</span></button>
+        <div class="faq__a"><p>Como regla general, necesitas entre 100-150 W por m² en zonas frías y hasta 200 W/m² en zonas cálidas. Para una habitación de 20 m² suele ser suficiente un 2,5 kW. Te ayudamos a calcularlo gratis.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿Cuánto tarda la instalación? <span>+</span></button>
+        <div class="faq__a"><p>Una instalación estándar de un split de pared tarda entre 3 y 5 horas. Para sistemas multisplit o de conductos el tiempo varía según la complejidad.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿El precio incluye la instalación? <span>+</span></button>
+        <div class="faq__a"><p>Los precios mostrados son PVP de equipo. La instalación se presupuesta por separado según la complejidad de tu vivienda. Pídenos un presupuesto sin compromiso.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿Qué garantía tienen los equipos NORD? <span>+</span></button>
+        <div class="faq__a"><p>Los equipos NORD tienen garantía oficial del fabricante. Además, ofrecemos extensiones de garantía y contratos de mantenimiento para proteger tu inversión.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿Puedo controlar el aire desde el móvil? <span>+</span></button>
+        <div class="faq__a"><p>Sí. Los modelos Karelia y Esencia incluyen conectividad Wi-Fi y app propia para control desde cualquier lugar. Compatible con Alexa y Google Home.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <div class="container">
+    <div class="section-header section-header--light">
+      <span class="section-badge section-badge--light">Contacto</span>
+      <h2 class="section-title section-title--light">Solicita tu presupuesto gratis</h2>
+      <p class="section-sub section-sub--light">Sin compromiso. Te respondemos en menos de 24 horas.</p>
+    </div>
+    <div class="contacto__inner">
+      <form class="contacto__form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="6XX XXX XXX" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo de instalación</label>
+          <select id="tipo" name="tipo">
+            <option value="">Selecciona...</option>
+            <option>Split pared 1×1</option>
+            <option>Multisplit (varias estancias)</option>
+            <option>Cassette</option>
+            <option>Conductos (invisible)</option>
+            <option>No lo sé, quiero asesoramiento</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Cuéntanos tu caso</label>
+          <textarea id="mensaje" name="mensaje" rows="4" placeholder="Metros cuadrados, número de habitaciones, tipo de vivienda..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full btn--lg">Enviar solicitud →</button>
+        <p class="form__legal">Al enviar aceptas nuestra <a href="#">política de privacidad</a>.</p>
+      </form>
+      <div class="contacto__info">
+        <div class="info-block">
+          <span class="info-block__icon">📞</span>
+          <div><strong>Llámanos</strong><p>+34 XXX XXX XXX</p><small>Lun–Vie 9:00–18:00</small></div>
+        </div>
+        <div class="info-block">
+          <span class="info-block__icon">✉️</span>
+          <div><strong>Escríbenos</strong><p>info@todotemperatura.com</p><small>Respondemos en &lt;24h</small></div>
+        </div>
+        <div class="info-block">
+          <span class="info-block__icon">📍</span>
+          <div><strong>Zona de servicio</strong><p>España peninsular</p><small>Envíos y desplazamientos</small></div>
+        </div>
+        <div class="info-block info-block--whatsapp">
+          <a href="https://wa.me/34XXXXXXXXX" target="_blank" rel="noopener" class="btn btn--whatsapp">
+            💬 Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <div class="footer__brand__name">Todo<span>Temperatura</span>.com</div>
+      <p>Distribuidores exclusivos de NORD en España. Especialistas en climatización para hogar y empresa.</p>
+    </div>
+    <div class="footer__links">
+      <h4>Productos</h4>
+      <ul>
+        <li><a href="#productos">Splits de pared</a></li>
+        <li><a href="#productos">Multisplits</a></li>
+        <li><a href="#productos">Cassettes</a></li>
+        <li><a href="#productos">Conductos</a></li>
+      </ul>
+    </div>
+    <div class="footer__links">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#nosotros">Sobre nosotros</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#">Aviso legal</a></li>
+      </ul>
+    </div>
+    <div class="footer__links">
+      <h4>Contacto</h4>
+      <ul>
+        <li>📞 +34 XXX XXX XXX</li>
+        <li>✉️ info@todotemperatura.com</li>
+        <li>🌐 todotemperatura.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container">
+      <p>© 2026 TodoTemperatura.com — Todos los derechos reservados</p>
+      <p><a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Cookies</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOTANTE -->
+<a href="https://wa.me/34XXXXXXXXX" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+// Header scroll effect
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Mobile hamburger
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav');
+hamburger.addEventListener('click', () => {
+  nav.classList.toggle('open');
+});
+
+document.querySelectorAll('.nav__link').forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('open');
+  });
+});
+
+// Product filter
+document.querySelectorAll('.filtro').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filtro').forEach(f => f.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.producto-card').forEach(card => {
+      card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
+    });
+  });
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq__q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq__item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// Contact form
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const f = e.target;
+  if (!f.nombre.value.trim() || !f.telefono.value.trim() || !f.email.value.trim()) {
+    alert('Por favor rellena nombre, teléfono y email.');
+    return;
+  }
+  const btn = f.querySelector('button[type="submit"]');
+  btn.textContent = '✓ Solicitud enviada — Te contactaremos pronto';
+  btn.disabled = true;
+  btn.style.background = '#2d6a4f';
+});
+
+// Smooth scroll with header offset
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', (e) => {
+    const target = document.querySelector(anchor.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
