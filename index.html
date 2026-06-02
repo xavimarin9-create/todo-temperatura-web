@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TodoTemperatura.com | Aire Acondicionado y Climatización</title>
+  <meta name="description" content="Especialistas en aire acondicionado, climatización y calefacción. Venta e instalación de splits, multisplits y sistemas de conductos. Precios directos de distribuidor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="/" class="logo">
+      <img src="logo.png" alt="TodoTemperatura.com" class="logo__img" />
+    </a>
+    <nav class="nav" id="nav">
+      <ul class="nav__list">
+        <li><a href="#productos" class="nav__link">Productos</a></li>
+        <li><a href="#marcas" class="nav__link">Marcas</a></li>
+        <li><a href="#servicios" class="nav__link">Servicios</a></li>
+        <li><a href="#nosotros" class="nav__link">Nosotros</a></li>
+        <li><a href="#contacto" class="nav__link nav__link--cta">Solicitar Presupuesto</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="container hero__content">
+    <span class="hero__badge">Distribuidor Exclusivo NORD 2026</span>
+    <h1 class="hero__title">La temperatura perfecta,<br /><span>en cada rincón</span></h1>
+    <p class="hero__sub">Venta e instalación de aires acondicionados de alta eficiencia.<br />Splits, multisplits, cassettes y conductos al mejor precio.</p>
+    <div class="hero__actions">
+      <a href="#productos" class="btn btn--primary">Ver productos</a>
+      <a href="#contacto" class="btn btn--outline">Pedir presupuesto gratis</a>
+    </div>
+    <div class="hero__stats">
+      <div class="stat"><span class="stat__num">+500</span><span class="stat__label">Instalaciones</span></div>
+      <div class="stat"><span class="stat__num">A++</span><span class="stat__label">Eficiencia</span></div>
+      <div class="stat"><span class="stat__num">10 años</span><span class="stat__label">Garantía</span></div>
+      <div class="stat"><span class="stat__num">24h</span><span class="stat__label">Respuesta</span></div>
+    </div>
+  </div>
+  <div class="hero__scroll">
+    <span></span>
+  </div>
+</section>
+
+<!-- VENTAJAS -->
+<section class="ventajas">
+  <div class="container">
+    <div class="ventajas__grid">
+      <div class="ventaja">
+        <div class="ventaja__icon">❄️</div>
+        <h3>Instalación profesional</h3>
+        <p>Técnicos certificados con más de 10 años de experiencia en climatización.</p>
+      </div>
+      <div class="ventaja">
+        <div class="ventaja__icon">💰</div>
+        <h3>Precio de distribuidor</h3>
+        <p>Somos distribuidores exclusivos. Sin intermediarios, precios más bajos garantizados.</p>
+      </div>
+      <div class="ventaja">
+        <div class="ventaja__icon">⚡</div>
+        <h3>Alta eficiencia A++</h3>
+        <p>Equipos de última generación que reducen hasta un 50% tu factura eléctrica.</p>
+      </div>
+      <div class="ventaja">
+        <div class="ventaja__icon">🛡️</div>
+        <h3>Garantía total</h3>
+        <p>Hasta 10 años de garantía en equipos y 2 años en la instalación.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="productos" id="productos">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Catálogo 2026</span>
+      <h2 class="section-title">Nuestros equipos</h2>
+      <p class="section-sub">Gama completa de climatización para hogar y negocio</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filtros" id="filtros">
+      <button class="filtro active" data-filter="all">Todos</button>
+      <button class="filtro" data-filter="split">Splits 1x1</button>
+      <button class="filtro" data-filter="multi">Multisplits</button>
+      <button class="filtro" data-filter="cassette">Cassettes</button>
+      <button class="filtro" data-filter="conductos">Conductos</button>
+    </div>
+
+    <div class="productos__grid" id="productosGrid">
+
+      <!-- KARELIA 25 -->
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--split"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">KARELIA</span>
+          <h3 class="producto-card__name">Split Pared 2,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER 6.1</span>
+            <span class="tag">Wi-Fi incluido</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 2,6 kW</li>
+            <li>Calefacción: 2,8 kW</li>
+            <li>Nivel sonoro: 38 dB(A)</li>
+            <li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">412,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- KARELIA 35 -->
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--split"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">KARELIA</span>
+          <h3 class="producto-card__name">Split Pared 3,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER 6.1</span>
+            <span class="tag">Wi-Fi incluido</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 3,5 kW</li>
+            <li>Calefacción: 3,9 kW</li>
+            <li>Nivel sonoro: 38 dB(A)</li>
+            <li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">447,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- KARELIA 50 -->
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--split"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">KARELIA</span>
+          <h3 class="producto-card__name">Split Pared 5,0 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER 6.1</span>
+            <span class="tag">Wi-Fi incluido</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 4,9 kW</li>
+            <li>Calefacción: 4,9 kW</li>
+            <li>Nivel sonoro: 44 dB(A)</li>
+            <li>SCOP A+</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">852,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- ESENCIA 25 -->
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--split2"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA</span>
+          <h3 class="producto-card__name">Split Pared 2,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 2,5 kW</li>
+            <li>Calefacción: 2,8 kW</li>
+            <li>Bajo consumo</li>
+            <li>Control App</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">515,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- ESENCIA 35 -->
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--split2"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA</span>
+          <h3 class="producto-card__name">Split Pared 3,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 3,5 kW</li>
+            <li>Calefacción: 3,9 kW</li>
+            <li>Bajo consumo</li>
+            <li>Control App</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">535,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- ESENCIA 50 -->
+      <article class="producto-card" data-category="split">
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--split2"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA</span>
+          <h3 class="producto-card__name">Split Pared 5,0 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Refrigeración: 5,0 kW</li>
+            <li>Calefacción: 5,5 kW</li>
+            <li>Bajo consumo</li>
+            <li>Control App</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.090,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- MULTI 2X1 -->
+      <article class="producto-card" data-category="multi">
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--multi"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA MULTI</span>
+          <h3 class="producto-card__name">2x1 — Hasta 2 estancias</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">Inverter</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>U. exterior 2x1 40/50</li>
+            <li>Compatible Esencia + Eira</li>
+            <li>Varias combinaciones</li>
+            <li>Control individual</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Exterior desde</span>
+            <span class="precio__valor">930,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- MULTI 3X1 -->
+      <article class="producto-card" data-category="multi">
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--multi"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">ESENCIA MULTI</span>
+          <h3 class="producto-card__name">3x1 — Hasta 3 estancias</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">Inverter</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>U. exterior 3x1 60/75</li>
+            <li>Compatible Esencia + Eira</li>
+            <li>Ideal viviendas completas</li>
+            <li>Control individual</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Exterior desde</span>
+            <span class="precio__valor">1.094,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- MINI CASSETTE 35 -->
+      <article class="producto-card" data-category="cassette">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--cassette"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Mini Cassette 60×60</span>
+          <h3 class="producto-card__name">Cassette 3,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER 7.8</span>
+            <span class="tag">4 vías</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Panel 60×60 cm (estándar)</li>
+            <li>Distribución 4 direcciones</li>
+            <li>34 dB(A) silencioso</li>
+            <li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.337,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- MINI CASSETTE 50 -->
+      <article class="producto-card" data-category="cassette">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--cassette"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Mini Cassette 60×60</span>
+          <h3 class="producto-card__name">Cassette 5,0 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER 6.3</span>
+            <span class="tag">4 vías</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Panel 60×60 cm (estándar)</li>
+            <li>Distribución 4 direcciones</li>
+            <li>39 dB(A)</li>
+            <li>SCOP A+++</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.527,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- CASSETTE 90X90 -->
+      <article class="producto-card" data-category="cassette">
+        <div class="producto-card__badge">NOVEDAD</div>
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--cassette"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Cassette 90×90</span>
+          <h3 class="producto-card__name">Cassette 10,5 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">SEER</span>
+            <span class="tag">4 vías</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Panel 90×90 cm</li>
+            <li>Grandes superficies</li>
+            <li>Control centralizado</li>
+            <li>Alta potencia</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Conjunto desde</span>
+            <span class="precio__valor">1.870,00 €</span>
+            <span class="precio__iva">PVP IVA no incluido</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+      <!-- CONDUCTOS 35 -->
+      <article class="producto-card" data-category="conductos">
+        <div class="producto-card__img-wrap">
+          <div class="producto-card__img producto-card__img--conductos"></div>
+        </div>
+        <div class="producto-card__body">
+          <span class="producto-card__serie">EIRA Conductos</span>
+          <h3 class="producto-card__name">Conductos 3,5 / 5,2 / 7,1 kW</h3>
+          <div class="producto-card__tags">
+            <span class="tag tag--green">A++</span>
+            <span class="tag">Invisible</span>
+            <span class="tag">Wi-Fi</span>
+          </div>
+          <ul class="producto-card__features">
+            <li>Instalación oculta en falso techo</li>
+            <li>Distribución por toda la vivienda</li>
+            <li>Mando a distancia incluido</li>
+            <li>Compatible multisplit</li>
+          </ul>
+          <div class="producto-card__precio">
+            <span class="precio__desde">Consultar precio</span>
+            <span class="precio__valor">A medida</span>
+            <span class="precio__iva">Según instalación</span>
+          </div>
+          <a href="#contacto" class="btn btn--primary btn--full">Solicitar presupuesto</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA INTERMEDIO -->
+<section class="cta-band">
+  <div class="container cta-band__inner">
+    <div class="cta-band__text">
+      <h2>¿No sabes qué equipo necesitas?</h2>
+      <p>Te asesoramos gratis. Calculamos la potencia ideal para tu espacio.</p>
+    </div>
+    <a href="#contacto" class="btn btn--white">Asesoramiento gratuito →</a>
+  </div>
+</section>
+
+<!-- MARCAS -->
+<section class="marcas" id="marcas">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Distribuidores exclusivos</span>
+      <h2 class="section-title">Marca NORD</h2>
+      <p class="section-sub">Distribuidor exclusivo nacional del catálogo NORD 2026. Máxima eficiencia energética al precio más competitivo.</p>
+    </div>
+    <div class="marcas__cards">
+      <div class="marca-card">
+        <div class="marca-card__logo">NORD</div>
+        <h3>Karelia</h3>
+        <p>Split de pared de nueva generación. Wi-Fi integrado, eficiencia A++ y diseño ultra-slim.</p>
+        <ul>
+          <li>2,5 / 3,5 / 5,0 kW</li>
+          <li>Clase A++ SEER 6.1</li>
+          <li>SCOP A+++</li>
+          <li>App integrada</li>
+        </ul>
+      </div>
+      <div class="marca-card">
+        <div class="marca-card__logo">NORD</div>
+        <h3>Esencia</h3>
+        <p>Gama premium para viviendas y locales. Compatible con sistemas multisplit.</p>
+        <ul>
+          <li>2,5 / 3,5 / 5,0 / 7,1 kW</li>
+          <li>Multisplit 2x1 / 3x1 / 4x1</li>
+          <li>Control App</li>
+          <li>Alta eficiencia</li>
+        </ul>
+      </div>
+      <div class="marca-card">
+        <div class="marca-card__logo">NORD</div>
+        <h3>Eira</h3>
+        <p>Soluciones profesionales: cassettes 60×60 y 90×90, y conductos para instalación oculta.</p>
+        <ul>
+          <li>Cassette Mini 60×60</li>
+          <li>Cassette 90×90</li>
+          <li>Conductos 35–140 kW</li>
+          <li>Mando inteligente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="servicios" id="servicios">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Lo que hacemos</span>
+      <h2 class="section-title">Servicios integrales de climatización</h2>
+      <p class="section-sub">Desde la venta hasta la instalación y el mantenimiento. Un único interlocutor para todo.</p>
+    </div>
+    <div class="servicios__grid">
+      <div class="servicio">
+        <div class="servicio__num">01</div>
+        <h3>Asesoramiento técnico</h3>
+        <p>Analizamos tu espacio y te recomendamos el equipo más adecuado y eficiente para tu caso.</p>
+      </div>
+      <div class="servicio">
+        <div class="servicio__num">02</div>
+        <h3>Venta de equipos</h3>
+        <p>Suministramos equipos NORD originales con toda la documentación y garantía del fabricante.</p>
+      </div>
+      <div class="servicio">
+        <div class="servicio__num">03</div>
+        <h3>Instalación certificada</h3>
+        <p>Técnicos homologados para instalaciones en viviendas, locales, oficinas e industria.</p>
+      </div>
+      <div class="servicio">
+        <div class="servicio__num">04</div>
+        <h3>Mantenimiento y revisión</h3>
+        <p>Contratos de mantenimiento preventivo para alargar la vida útil de tu equipo.</p>
+      </div>
+      <div class="servicio">
+        <div class="servicio__num">05</div>
+        <h3>Reparación urgente</h3>
+        <p>Servicio técnico rápido. Si tu equipo falla, respondemos en menos de 24h.</p>
+      </div>
+      <div class="servicio">
+        <div class="servicio__num">06</div>
+        <h3>Financiación</h3>
+        <p>Financia tu equipo e instalación en cómodas cuotas. Sin intereses hasta 12 meses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section class="nosotros" id="nosotros">
+  <div class="container nosotros__inner">
+    <div class="nosotros__text">
+      <span class="section-badge">Sobre nosotros</span>
+      <h2 class="section-title">Expertos en climatización<br />con más de una década de experiencia</h2>
+      <p>En <strong>TodoTemperatura.com</strong> llevamos más de 10 años ofreciendo soluciones de climatización para particulares, empresas y comunidades. Somos distribuidores exclusivos de la marca NORD en España, lo que nos permite ofrecer los mejores precios del mercado con la máxima garantía.</p>
+      <p>Nuestro equipo de técnicos certificados trabaja en toda la zona para garantizar una instalación perfecta y un servicio posventa sin igual.</p>
+      <div class="nosotros__nums">
+        <div class="nos-num"><span>+500</span><p>Instalaciones realizadas</p></div>
+        <div class="nos-num"><span>10 años</span><p>De experiencia</p></div>
+        <div class="nos-num"><span>4,9★</span><p>Valoración media</p></div>
+      </div>
+    </div>
+    <div class="nosotros__visual">
+      <div class="nosotros__card-wrap">
+        <div class="nosotros__card">
+          <p>"Instalaron el aire acondicionado en un día. Profesionales, limpios y muy buen precio. Totalmente recomendable."</p>
+          <strong>— María G., Madrid</strong>
+        </div>
+        <div class="nosotros__card">
+          <p>"Llevamos 3 años con el sistema multisplit que nos instalaron y funciona perfecto. El servicio posventa es excelente."</p>
+          <strong>— Carlos F., Barcelona</strong>
+        </div>
+        <div class="nosotros__card">
+          <p>"El mejor precio que encontré para el modelo que quería. Además la instalación fue impecable. 100% recomendados."</p>
+          <strong>— Ana M., Valencia</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Preguntas frecuentes</span>
+      <h2 class="section-title">Resolvemos tus dudas</h2>
+    </div>
+    <div class="faq__list" id="faqList">
+      <div class="faq__item">
+        <button class="faq__q">¿Qué potencia necesito para mi habitación? <span>+</span></button>
+        <div class="faq__a">
+          <p>Como regla general, necesitas entre 100-150 W por m² en zonas frías y hasta 200 W/m² en zonas cálidas. Para una habitación de 20 m² suele ser suficiente un 2,5 kW. Te ayudamos a calcularlo gratis.</p>
+        </div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿Cuánto tarda la instalación? <span>+</span></button>
+        <div class="faq__a">
+          <p>Una instalación estándar de un split de pared tarda entre 3 y 5 horas. Para sistemas multisplit o de conductos el tiempo varía según la complejidad.</p>
+        </div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿El precio incluye la instalación? <span>+</span></button>
+        <div class="faq__a">
+          <p>Los precios mostrados son PVP de equipo. La instalación se presupuesta por separado según la complejidad de tu vivienda. Pídenos un presupuesto sin compromiso.</p>
+        </div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿Qué garantía tienen los equipos NORD? <span>+</span></button>
+        <div class="faq__a">
+          <p>Los equipos NORD tienen garantía oficial del fabricante. Además, ofrecemos extensiones de garantía y contratos de mantenimiento para proteger tu inversión.</p>
+        </div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">¿Puedo controlar el aire desde el móvil? <span>+</span></button>
+        <div class="faq__a">
+          <p>Sí. Los modelos Karelia y Esencia incluyen conectividad Wi-Fi y app propia para control desde cualquier lugar. Compatible con Alexa y Google Home.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <div class="container">
+    <div class="section-header section-header--light">
+      <span class="section-badge section-badge--light">Contacto</span>
+      <h2 class="section-title section-title--light">Solicita tu presupuesto gratis</h2>
+      <p class="section-sub section-sub--light">Sin compromiso. Te respondemos en menos de 24 horas.</p>
+    </div>
+    <div class="contacto__inner">
+      <form class="contacto__form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="6XX XXX XXX" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo de instalación</label>
+          <select id="tipo" name="tipo">
+            <option value="">Selecciona...</option>
+            <option>Split pared 1x1</option>
+            <option>Multisplit (varias estancias)</option>
+            <option>Cassette</option>
+            <option>Conductos (invisible)</option>
+            <option>No lo sé, quiero asesoramiento</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Cuéntanos tu caso</label>
+          <textarea id="mensaje" name="mensaje" rows="4" placeholder="Metros cuadrados, número de habitaciones, tipo de vivienda..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full btn--lg">Enviar solicitud →</button>
+        <p class="form__legal">Al enviar aceptas nuestra <a href="#">política de privacidad</a>.</p>
+      </form>
+      <div class="contacto__info">
+        <div class="info-block">
+          <span class="info-block__icon">📞</span>
+          <div>
+            <strong>Llámanos</strong>
+            <p>+34 XXX XXX XXX</p>
+            <small>Lun–Vie 9:00–18:00</small>
+          </div>
+        </div>
+        <div class="info-block">
+          <span class="info-block__icon">✉️</span>
+          <div>
+            <strong>Escríbenos</strong>
+            <p>info@todotemperatura.com</p>
+            <small>Respondemos en &lt;24h</small>
+          </div>
+        </div>
+        <div class="info-block">
+          <span class="info-block__icon">📍</span>
+          <div>
+            <strong>Zona de servicio</strong>
+            <p>España peninsular</p>
+            <small>Envíos y desplazamientos</small>
+          </div>
+        </div>
+        <div class="info-block info-block--whatsapp">
+          <a href="https://wa.me/34XXXXXXXXX" target="_blank" rel="noopener" class="btn btn--whatsapp">
+            💬 Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <img src="logo.png" alt="TodoTemperatura.com" class="footer__logo" />
+      <p>Distribuidores exclusivos de NORD en España. Especialistas en climatización para hogar y empresa.</p>
+    </div>
+    <div class="footer__links">
+      <h4>Productos</h4>
+      <ul>
+        <li><a href="#productos">Splits de pared</a></li>
+        <li><a href="#productos">Multisplits</a></li>
+        <li><a href="#productos">Cassettes</a></li>
+        <li><a href="#productos">Conductos</a></li>
+      </ul>
+    </div>
+    <div class="footer__links">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#nosotros">Sobre nosotros</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#">Aviso legal</a></li>
+      </ul>
+    </div>
+    <div class="footer__links">
+      <h4>Contacto</h4>
+      <ul>
+        <li>📞 +34 XXX XXX XXX</li>
+        <li>✉️ info@todotemperatura.com</li>
+        <li>🌐 todotemperatura.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container">
+      <p>© 2026 TodoTemperatura.com — Todos los derechos reservados</p>
+      <p><a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Cookies</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOTANTE -->
+<a href="https://wa.me/34XXXXXXXXX" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<script src="main.js"></script>
+</body>
+</html>
