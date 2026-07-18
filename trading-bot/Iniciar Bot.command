@@ -14,4 +14,4 @@ if [ ! -f ".env" ]; then
     cp .env.example .env
 fi
 
-./venv/bin/python main.py --dashboard
+./venv/bin/python main.py --web

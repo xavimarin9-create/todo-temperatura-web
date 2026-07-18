@@ -3,8 +3,10 @@ gestiona stop-loss/take-profit/trailing y conecta senales -> riesgo -> portfolio
 from __future__ import annotations
 
 import logging
+import math
 from datetime import datetime
 
+import pandas as pd
 import pytz
 
 import config
@@ -17,6 +19,23 @@ from strategy.risk_manager import RiskManager
 from trading.portfolio import Portfolio
 
 logger = logging.getLogger("paper_engine")
+
+MAX_CHART_CANDLES = 150
+
+
+def _candles_payload(df_ind: pd.DataFrame, limit: int = MAX_CHART_CANDLES) -> list[dict]:
+    """Serializa las ultimas velas (OHLC + EMA9/EMA21) para el gráfico del dashboard web."""
+    candles = []
+    for ts, row in df_ind.tail(limit).iterrows():
+        ema9 = float(row["ema9"]) if not math.isnan(row["ema9"]) else None
+        ema21 = float(row["ema21"]) if not math.isnan(row["ema21"]) else None
+        candles.append({
+            "time": int(ts.value // 10**9),
+            "open": float(row["Open"]), "high": float(row["High"]),
+            "low": float(row["Low"]), "close": float(row["Close"]),
+            "ema9": ema9, "ema21": ema21,
+        })
+    return candles
 
 
 def _now() -> datetime:
@@ -163,6 +182,7 @@ class PaperTradingEngine:
             "reason": signal.reason_text(),
             "indicators": signal.indicators,
             "updated_at": _now(),
+            "candles": _candles_payload(df_main_ind),
         }
 
         self.manage_open_position(asset_key, market_price)

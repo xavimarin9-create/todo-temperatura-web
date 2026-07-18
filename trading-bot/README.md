@@ -52,11 +52,14 @@ cp .env.example .env            # opcional: ajusta balance, riesgo, Telegram, et
 ## Ejecucion
 
 ```bash
+# Dashboard web con graficos de velas en tiempo real (recomendado)
+python main.py --web
+
+# Dashboard interactivo en la terminal (pantalla completa, se refresca solo)
+python main.py --dashboard
+
 # Loop principal (imprime un snapshot del dashboard en cada iteracion)
 python main.py
-
-# Dashboard interactivo en vivo (pantalla completa, se refresca solo)
-python main.py --dashboard
 
 # Ver historial completo de operaciones
 python main.py --history
@@ -67,6 +70,24 @@ python main.py --summary
 
 Para detener el bot en cualquier momento: `Ctrl+C`. El cierre es limpio, no
 corrompe el estado ni dejas posiciones a medio guardar.
+
+### Dashboard web (`--web`)
+
+Abre automaticamente `http://127.0.0.1:8765` en tu navegador con:
+
+- Graficos de velas reales por activo (oro en grande arriba por ser
+  prioritario, las tres criptos debajo), con EMA9/EMA21 superpuestas, usando
+  [Lightweight Charts](https://github.com/tradingview/lightweight-charts) —
+  la libreria de graficos open-source de TradingView.
+- Reloj en vivo con la hora de Madrid (`Europe/Madrid`), balance, equity y
+  P&L actualizados cada 4 segundos.
+- Panel de notificaciones, posiciones abiertas, ultimas operaciones cerradas
+  y estadisticas, igual que en el dashboard de terminal.
+
+Todo corre en `127.0.0.1` (tu propio ordenador): no expone nada a internet ni
+se conecta a ningun bróker o exchange real, solo lee los datos de precio que
+el bot ya descarga con `yfinance`. Puedes cambiar el puerto con `--port`
+(por ejemplo `python main.py --web --port 9000`).
 
 ## Que hace el bot
 

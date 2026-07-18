@@ -5,7 +5,9 @@ import argparse
 import logging
 import signal as os_signal
 import sys
+import threading
 import time
+import webbrowser
 from datetime import datetime
 from typing import Optional
 
@@ -156,11 +158,42 @@ def run_loop(bot: TradingBot, dashboard: bool = False):
     logger.info("Bot detenido. Balance final: EUR %.2f", bot.portfolio.balance)
 
 
+def run_web(bot: TradingBot, host: str = "127.0.0.1", port: int = 8765, open_browser: bool = True):
+    from dashboard.web_server import create_app
+
+    os_signal.signal(os_signal.SIGINT, bot.stop)
+    os_signal.signal(os_signal.SIGTERM, bot.stop)
+
+    app = create_app(bot)
+    server_thread = threading.Thread(
+        target=lambda: app.run(host=host, port=port, debug=False, use_reloader=False),
+        daemon=True,
+    )
+    server_thread.start()
+
+    url = f"http://{host}:{port}"
+    logger.info("Dashboard web disponible en %s", url)
+    if open_browser:
+        threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+
+    while bot.running:
+        bot.tick()
+        if bot.portfolio.bot_stopped:
+            logger.warning("Drawdown total alcanzado. El bot se detiene.")
+            break
+        _sleep_interruptible(bot, 15)
+
+    logger.info("Bot detenido. Balance final: EUR %.2f", bot.portfolio.balance)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Bot de paper trading (XAU/USD, BTC/USD, ETH/USD, SOL/USD)"
     )
-    parser.add_argument("--dashboard", action="store_true", help="Ejecuta con dashboard interactivo en vivo")
+    parser.add_argument("--dashboard", action="store_true", help="Ejecuta con dashboard interactivo en vivo (terminal)")
+    parser.add_argument("--web", action="store_true",
+                        help="Ejecuta con dashboard web en el navegador (graficos de velas en tiempo real)")
+    parser.add_argument("--port", type=int, default=8765, help="Puerto del dashboard web (por defecto 8765)")
     parser.add_argument("--history", action="store_true", help="Muestra el historial de operaciones y termina")
     parser.add_argument("--summary", action="store_true", help="Muestra el resumen de rendimiento y termina")
     args = parser.parse_args()
@@ -182,7 +215,10 @@ def main():
 
     bot = TradingBot()
     try:
-        run_loop(bot, dashboard=args.dashboard)
+        if args.web:
+            run_web(bot, port=args.port)
+        else:
+            run_loop(bot, dashboard=args.dashboard)
     except KeyboardInterrupt:
         bot.stop()
 
