@@ -99,10 +99,12 @@ class TradingBot:
             equity = self.portfolio.total_equity(self.engine.current_prices())
 
             self.db.upsert_daily_summary(day_prefix, len(closed_today), wins, losses, pnl, win_rate, equity)
-            telegram_bot.send_daily_summary({
+            text = telegram_bot.format_daily_summary_message({
                 "trades_count": len(closed_today), "wins": wins, "losses": losses,
                 "win_rate": win_rate, "pnl": pnl, "ending_balance": equity,
             })
+            self.engine.notifications.add("SUMMARY", text, now)
+            telegram_bot.send_message(text)
             self.last_daily_summary_date = now.date()
 
     def tick(self):
@@ -134,11 +136,11 @@ def run_loop(bot: TradingBot, dashboard: bool = False):
     os_signal.signal(os_signal.SIGTERM, bot.stop)
 
     if dashboard:
-        with Live(terminal_ui.build_dashboard(bot.engine, bot.db), console=terminal_ui.console,
+        with Live(terminal_ui.build_live_layout(bot.engine, bot.db), console=terminal_ui.console,
                   refresh_per_second=1, screen=True) as live:
             while bot.running:
                 bot.tick()
-                live.update(terminal_ui.build_dashboard(bot.engine, bot.db))
+                live.update(terminal_ui.build_live_layout(bot.engine, bot.db))
                 if bot.portfolio.bot_stopped:
                     break
                 _sleep_interruptible(bot, 15)

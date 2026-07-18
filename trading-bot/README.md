@@ -94,17 +94,30 @@ corrompe el estado ni dejas posiciones a medio guardar.
   balance historico en SQLite (`database/trading_bot.db`).
 - Registra toda la actividad en `bot.log`.
 
+## Notificaciones en la propia app
+
+No hace falta configurar nada para verlas: cada vez que se abre o cierra una
+operacion, se activa un freno por drawdown o se genera el resumen diario, la
+alerta aparece directamente en el dashboard:
+
+- Con `python main.py --dashboard`: panel "🔔 Notificaciones" a la derecha,
+  en vivo, junto al resto del contenido.
+- Con `python main.py` (modo simple): las mismas alertas aparecen al final de
+  cada snapshot impreso.
+
 ## Telegram (opcional, desactivado por defecto)
 
-El bot funciona perfectamente sin Telegram. Para activarlo:
+Ademas del panel en la app, puedes recibir las mismas alertas por Telegram si
+lo prefieres. Es opcional, el bot funciona perfectamente sin ello:
 
 1. Crea un bot con [@BotFather](https://t.me/BotFather) y copia el token.
 2. Consigue tu `chat_id` (por ejemplo escribiendo a
    [@userinfobot](https://t.me/userinfobot)).
 3. Rellena `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en tu `.env`.
 
-Con eso activado, el bot avisa al abrir/cerrar operaciones, al activarse el
-freno por drawdown diario/total y con un resumen diario a las 23:00 (hora
+Con eso activado, el bot avisa por Telegram (ademas de en el panel de la app)
+al abrir/cerrar operaciones, al activarse el freno por drawdown diario/total
+y con un resumen diario a las 23:00 (hora
 `Europe/Madrid` por defecto, configurable con `TIMEZONE`).
 
 ## Notas sobre los datos

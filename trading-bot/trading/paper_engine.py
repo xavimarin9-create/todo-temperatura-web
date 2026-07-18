@@ -10,6 +10,7 @@ import pytz
 import config
 from database.db import Database
 from notifications import telegram_bot
+from notifications.notification_center import NotificationCenter
 from strategy import signals as sig
 from strategy import technical as ta
 from strategy.risk_manager import RiskManager
@@ -41,6 +42,7 @@ class PaperTradingEngine:
         self.db = db or Database()
         self.risk = risk_manager or RiskManager()
         self.asset_state: dict[str, dict] = {}
+        self.notifications = NotificationCenter()
 
     # ------------------------------------------------------------------
     def _notional_and_commission(self, quantity: float, fill_price: float) -> tuple[float, float]:
@@ -95,11 +97,13 @@ class PaperTradingEngine:
                     asset_key, entry_price, plan.quantity, stop_loss, plan.take_profit, reason)
 
         equity = self.portfolio.total_equity({asset_key: market_price})
-        telegram_bot.send_signal({
+        text = telegram_bot.format_signal_message({
             "asset": asset_key, "action": "COMPRA", "entry_price": entry_price,
             "take_profit": plan.take_profit, "stop_loss": stop_loss, "reason": reason,
             "balance": equity, "balance_pct": self.portfolio.total_pnl_pct({asset_key: market_price}),
         })
+        self.notifications.add("BUY", text, opened_at)
+        telegram_bot.send_message(text)
 
     def _close_trade(self, trade_id: int, market_price: float, close_reason: str):
         position = self.portfolio.open_positions.get(trade_id)
@@ -118,10 +122,12 @@ class PaperTradingEngine:
                     position.asset, exit_price, position.quantity, pnl, close_reason)
 
         equity = self.portfolio.total_equity({position.asset: market_price})
-        telegram_bot.send_trade_closed({
+        text = telegram_bot.format_trade_closed_message({
             "asset": position.asset, "exit_price": exit_price, "pnl": pnl,
             "balance": equity, "balance_pct": self.portfolio.total_pnl_pct({position.asset: market_price}),
         })
+        self.notifications.add("WIN" if pnl >= 0 else "LOSS", text, closed_at)
+        telegram_bot.send_message(text)
 
     # ------------------------------------------------------------------
     def manage_open_position(self, asset_key: str, market_price: float):
@@ -196,7 +202,9 @@ class PaperTradingEngine:
             msg = (f"Drawdown diario del {config.MAX_DAILY_DRAWDOWN*100:.0f}% alcanzado. "
                    f"Se detienen nuevas operaciones hasta manana.")
             logger.warning(msg)
-            telegram_bot.send_drawdown_alert(msg)
+            text = telegram_bot.format_drawdown_alert_message(msg)
+            self.notifications.add("RISK", text, now)
+            telegram_bot.send_message(text)
             alerts.append(msg)
 
         if not self.portfolio.bot_stopped and self.risk.check_total_drawdown(self.portfolio.initial_balance, equity):
@@ -204,7 +212,9 @@ class PaperTradingEngine:
             msg = (f"Drawdown total del {config.MAX_TOTAL_DRAWDOWN*100:.0f}% alcanzado "
                    f"(balance: €{equity:,.2f}). El bot se detiene.")
             logger.warning(msg)
-            telegram_bot.send_drawdown_alert(msg)
+            text = telegram_bot.format_drawdown_alert_message(msg)
+            self.notifications.add("RISK", text, now)
+            telegram_bot.send_message(text)
             alerts.append(msg)
 
         self.db.record_balance(now.isoformat(), self.portfolio.balance, equity)

@@ -4,12 +4,17 @@ from __future__ import annotations
 from datetime import datetime
 
 from rich.console import Console, Group
+from rich.layout import Layout
 from rich.panel import Panel
 from rich.table import Table
 
 import config
 
 console = Console()
+
+NOTIFICATION_COLORS = {
+    "BUY": "green", "WIN": "green", "LOSS": "red", "RISK": "bold red", "SUMMARY": "cyan",
+}
 
 
 def _fmt_money(value: float) -> str:
@@ -119,7 +124,23 @@ def _assets_table(engine) -> Table:
     return table
 
 
-def build_dashboard(engine, db) -> Group:
+def _notifications_panel(engine, limit: int = 8) -> Panel:
+    """Panel con las mismas alertas que se enviarian por Telegram (senales, cierres,
+    avisos de riesgo y resumen diario), para verlas directamente en la app."""
+    items = engine.notifications.recent(limit)
+    if not items:
+        body = "[dim]Sin notificaciones todavia.[/dim]"
+    else:
+        blocks = []
+        for n in items:
+            color = NOTIFICATION_COLORS.get(n.level, "white")
+            ts = n.timestamp.strftime("%H:%M:%S")
+            blocks.append(f"[dim]{ts}[/dim]\n[{color}]{n.text}[/{color}]")
+        body = f"\n[dim]{'─' * 30}[/dim]\n".join(blocks)
+    return Panel(body, title="🔔 Notificaciones", border_style="yellow")
+
+
+def _main_group(engine, db) -> Group:
     return Group(
         _header_panel(engine),
         _positions_table(engine),
@@ -127,6 +148,24 @@ def build_dashboard(engine, db) -> Group:
         _stats_panel(db),
         _assets_table(engine),
     )
+
+
+def build_dashboard(engine, db) -> Group:
+    """Vista de una sola columna (usada en el modo de impresion simple, sin --dashboard)."""
+    return Group(_main_group(engine, db), _notifications_panel(engine))
+
+
+def build_live_layout(engine, db) -> Layout:
+    """Vista de dos columnas para --dashboard: contenido principal a la izquierda,
+    notificaciones a la derecha."""
+    layout = Layout()
+    layout.split_row(
+        Layout(name="main", ratio=3),
+        Layout(name="notifications", ratio=1, minimum_size=34),
+    )
+    layout["main"].update(_main_group(engine, db))
+    layout["notifications"].update(_notifications_panel(engine, limit=12))
+    return layout
 
 
 def print_snapshot(engine, db):
