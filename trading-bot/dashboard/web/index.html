@@ -175,6 +175,10 @@
   </div>
 </header>
 
+<div id="conn-banner" style="display:none; background:#3a1414; color:#ffb4ac; border-bottom:1px solid #5c1f1f; padding:8px 22px; font-size:12.5px;">
+  ⚠️ No se puede contactar con el bot (¿sigue corriendo la Terminal?). Mostrando el último dato conocido.
+</div>
+
 <main>
   <div class="side-stack">
     <div class="panel chart-panel">
@@ -283,6 +287,10 @@ function renderTabs() {
   });
 }
 
+function fmtNum(v, decimals) {
+  return (v === null || v === undefined || Number.isNaN(v)) ? "—" : v.toFixed(decimals);
+}
+
 function renderMainPanel(a) {
   if (!a || !a.has_data) {
     document.getElementById("main-name").textContent = currentAsset;
@@ -292,14 +300,15 @@ function renderMainPanel(a) {
     return;
   }
   document.getElementById("main-name").textContent = a.asset;
-  document.getElementById("main-price").textContent = a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
+  document.getElementById("main-price").textContent = a.price === null
+    ? "calculando..." : a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
   const signalEl = document.getElementById("main-signal");
   signalEl.textContent = a.signal;
   signalEl.className = "badge " + a.signal;
-  document.getElementById("main-rsi").textContent = a.rsi.toFixed(1);
-  document.getElementById("main-adx").textContent = a.adx.toFixed(1);
-  document.getElementById("main-macd").textContent = a.macd_hist.toFixed(5);
-  document.getElementById("main-ema").textContent = `${a.ema9.toFixed(2)} / ${a.ema21.toFixed(2)}`;
+  document.getElementById("main-rsi").textContent = fmtNum(a.rsi, 1);
+  document.getElementById("main-adx").textContent = fmtNum(a.adx, 1);
+  document.getElementById("main-macd").textContent = fmtNum(a.macd_hist, 5);
+  document.getElementById("main-ema").textContent = `${fmtNum(a.ema9, 2)} / ${fmtNum(a.ema21, 2)}`;
   document.getElementById("main-reason").textContent = a.reason;
 
   if (a.candles && a.candles.length) {
@@ -334,7 +343,8 @@ function renderAsset(a) {
     tabPrice.textContent = "sin datos";
     tabSignal.textContent = "—";
   } else {
-    tabPrice.textContent = a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
+    tabPrice.textContent = a.price === null
+      ? "calculando..." : a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
     tabSignal.textContent = a.signal;
     tabSignal.className = "badge tab-badge " + a.signal;
   }
@@ -351,11 +361,13 @@ function renderPositions(positions) {
     return;
   }
   tbody.innerHTML = positions.map(p => {
-    const pnlClass = p.unrealized_pnl >= 0 ? "up" : "down";
+    const pnl = p.unrealized_pnl;
+    const pnlClass = (pnl === null || pnl >= 0) ? "up" : "down";
+    const pnlText = pnl === null ? "—" : `${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)}`;
     return `<tr>
-      <td>${p.asset}</td><td>${p.entry_price.toFixed(4)}</td><td>${p.current_price.toFixed(4)}</td>
-      <td>${p.quantity.toFixed(6)}</td><td>${p.stop_loss.toFixed(4)}</td><td>${p.take_profit.toFixed(4)}</td>
-      <td class="${pnlClass}">${p.unrealized_pnl >= 0 ? "+" : ""}${p.unrealized_pnl.toFixed(2)}</td>
+      <td>${p.asset}</td><td>${fmtNum(p.entry_price, 4)}</td><td>${fmtNum(p.current_price, 4)}</td>
+      <td>${fmtNum(p.quantity, 6)}</td><td>${fmtNum(p.stop_loss, 4)}</td><td>${fmtNum(p.take_profit, 4)}</td>
+      <td class="${pnlClass}">${pnlText}</td>
     </tr>`;
   }).join("");
 }
@@ -403,9 +415,28 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+let consecutiveFailures = 0;
+
+function setConnectionState(ok) {
+  const dot = document.querySelector(".live-dot");
+  const banner = document.getElementById("conn-banner");
+  if (ok) {
+    consecutiveFailures = 0;
+    dot.style.background = "var(--green)";
+    banner.style.display = "none";
+  } else {
+    consecutiveFailures += 1;
+    dot.style.background = "var(--red)";
+    if (consecutiveFailures >= 2) {
+      banner.style.display = "block";
+    }
+  }
+}
+
 async function poll() {
   try {
     const res = await fetch("/api/state");
+    if (!res.ok) throw new Error("HTTP " + res.status);
     const data = await res.json();
 
     serverClock = new Date(data.server_time);
@@ -417,16 +448,20 @@ async function poll() {
     document.getElementById("balance").textContent = fmtMoney(data.balance);
     document.getElementById("equity").textContent = fmtMoney(data.equity);
     const pnlEl = document.getElementById("pnl");
-    pnlEl.textContent = `${data.pnl >= 0 ? "+" : ""}${fmtMoney(data.pnl)} (${data.pnl_pct >= 0 ? "+" : ""}${data.pnl_pct.toFixed(2)}%)`;
-    pnlEl.className = "value " + (data.pnl >= 0 ? "up" : "down");
+    const pnl = data.pnl ?? 0;
+    const pnlPct = data.pnl_pct ?? 0;
+    pnlEl.textContent = `${pnl >= 0 ? "+" : ""}${fmtMoney(pnl)} (${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(2)}%)`;
+    pnlEl.className = "value " + (pnl >= 0 ? "up" : "down");
 
     data.assets.forEach(renderAsset);
     renderPositions(data.positions);
     renderTrades(data.closed_trades);
     renderNotifications(data.notifications);
     renderStats(data.stats);
+    setConnectionState(true);
   } catch (err) {
     console.error("Error actualizando el dashboard:", err);
+    setConnectionState(false);
   }
 }
 

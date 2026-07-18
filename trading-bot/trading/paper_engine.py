@@ -24,9 +24,14 @@ MAX_CHART_CANDLES = 150
 
 
 def _candles_payload(df_ind: pd.DataFrame, limit: int = MAX_CHART_CANDLES) -> list[dict]:
-    """Serializa las ultimas velas (OHLC + EMA9/EMA21) para el gráfico del dashboard web."""
+    """Serializa las ultimas velas (OHLC + EMA9/EMA21) para el gráfico del dashboard web.
+
+    Descarta velas con OHLC no numerico (huecos de datos de yfinance): un NaN
+    en el JSON rompe el parseo en el navegador y congela el dashboard entero."""
     candles = []
     for ts, row in df_ind.tail(limit).iterrows():
+        if any(math.isnan(row[c]) for c in ("Open", "High", "Low", "Close")):
+            continue
         ema9 = float(row["ema9"]) if not math.isnan(row["ema9"]) else None
         ema21 = float(row["ema21"]) if not math.isnan(row["ema21"]) else None
         candles.append({

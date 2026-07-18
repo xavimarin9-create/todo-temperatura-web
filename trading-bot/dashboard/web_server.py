@@ -3,6 +3,7 @@ navegador con graficos de velas en tiempo real. Solo escucha en 127.0.0.1: no
 expone nada a internet ni se conecta a ningun broker o exchange real."""
 from __future__ import annotations
 
+import math
 from datetime import datetime
 from pathlib import Path
 
@@ -14,20 +15,35 @@ import config
 WEB_DIR = Path(__file__).resolve().parent / "web"
 
 
+def _safe_num(value, decimals: int):
+    """Redondea un numero, o devuelve None si es NaN/Inf/invalido.
+
+    Un indicador puede ser NaN mientras no hay suficiente historico (p.ej. la
+    EMA200 necesita 200 velas). jsonify() serializaria ese NaN como el token
+    literal `NaN`, que no es JSON valido: el navegador fallaria al parsear
+    *toda* la respuesta y el dashboard entero se quedaria congelado en el
+    ultimo dato bueno (reloj incluido), sin ningun aviso."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return None
+    return round(v, decimals) if math.isfinite(v) else None
+
+
 def _asset_payload(state: dict) -> dict:
     ind = state["indicators"]
     return {
         "has_data": True,
-        "price": round(state["last_price"], 5),
+        "price": _safe_num(state["last_price"], 5),
         "signal": state["signal"],
         "reason": state["reason"],
         "updated_at": state["updated_at"].isoformat(),
-        "rsi": round(ind["rsi14"], 1),
-        "adx": round(ind["adx14"], 1),
-        "ema9": round(ind["ema9"], 5),
-        "ema21": round(ind["ema21"], 5),
-        "ema200": round(ind["ema200"], 5),
-        "macd_hist": round(ind["macd_hist"], 6),
+        "rsi": _safe_num(ind["rsi14"], 1),
+        "adx": _safe_num(ind["adx14"], 1),
+        "ema9": _safe_num(ind["ema9"], 5),
+        "ema21": _safe_num(ind["ema21"], 5),
+        "ema200": _safe_num(ind["ema200"], 5),
+        "macd_hist": _safe_num(ind["macd_hist"], 6),
         "candles": state.get("candles", []),
     }
 
@@ -54,12 +70,12 @@ def build_state_payload(bot) -> dict:
         current = prices.get(pos.asset, pos.entry_price)
         positions.append({
             "asset": pos.asset,
-            "entry_price": pos.entry_price,
-            "current_price": current,
-            "quantity": pos.quantity,
-            "stop_loss": pos.stop_loss,
-            "take_profit": pos.take_profit,
-            "unrealized_pnl": (current - pos.entry_price) * pos.quantity,
+            "entry_price": _safe_num(pos.entry_price, 6),
+            "current_price": _safe_num(current, 6),
+            "quantity": _safe_num(pos.quantity, 8),
+            "stop_loss": _safe_num(pos.stop_loss, 6),
+            "take_profit": _safe_num(pos.take_profit, 6),
+            "unrealized_pnl": _safe_num((current - pos.entry_price) * pos.quantity, 2),
         })
 
     closed_trades = [
@@ -88,11 +104,11 @@ def build_state_payload(bot) -> dict:
 
     return {
         "server_time": now.isoformat(),
-        "initial_balance": portfolio.initial_balance,
-        "balance": portfolio.balance,
-        "equity": equity,
-        "pnl": portfolio.total_pnl(prices),
-        "pnl_pct": portfolio.total_pnl_pct(prices),
+        "initial_balance": _safe_num(portfolio.initial_balance, 2),
+        "balance": _safe_num(portfolio.balance, 2),
+        "equity": _safe_num(equity, 2),
+        "pnl": _safe_num(portfolio.total_pnl(prices), 2),
+        "pnl_pct": _safe_num(portfolio.total_pnl_pct(prices), 2),
         "status": status,
         "assets": assets,
         "positions": positions,
