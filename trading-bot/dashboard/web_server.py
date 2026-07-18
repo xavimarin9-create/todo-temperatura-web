@@ -117,6 +117,10 @@ def create_app(bot) -> Flask:
     def index():
         return send_from_directory(WEB_DIR, "index.html")
 
+    @app.route("/vendor/<path:filename>")
+    def vendor(filename):
+        return send_from_directory(WEB_DIR / "vendor", filename)
+
     @app.route("/api/state")
     def state():
         return jsonify(build_state_payload(bot))

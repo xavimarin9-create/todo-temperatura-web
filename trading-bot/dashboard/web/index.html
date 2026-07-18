@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:," />
 <title>Trading Bot · Paper Trading</title>
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<script src="/vendor/lightweight-charts.js"></script>
 <style>
   :root {
     --bg: #0b0e14;
@@ -248,12 +249,12 @@ const mainChart = LightweightCharts.createChart(document.getElementById("main-ch
   crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
   autoSize: true,
 });
-const mainCandleSeries = mainChart.addCandlestickSeries({
+const mainCandleSeries = mainChart.addSeries(LightweightCharts.CandlestickSeries, {
   upColor: "#26a69a", downColor: "#ef5350", borderVisible: false,
   wickUpColor: "#26a69a", wickDownColor: "#ef5350",
 });
-const mainEma9Series = mainChart.addLineSeries({ color: "#4c8bf5", lineWidth: 1 });
-const mainEma21Series = mainChart.addLineSeries({ color: "#e0a72e", lineWidth: 1 });
+const mainEma9Series = mainChart.addSeries(LightweightCharts.LineSeries, { color: "#4c8bf5", lineWidth: 1 });
+const mainEma21Series = mainChart.addSeries(LightweightCharts.LineSeries, { color: "#e0a72e", lineWidth: 1 });
 
 function cssId(asset) {
   return asset.replace("/", "-");
