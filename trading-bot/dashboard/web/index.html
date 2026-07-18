@@ -95,24 +95,38 @@
     color: var(--dim);
     margin: 0 0 10px;
   }
-  .charts-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+  .asset-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .asset-tab {
+    background: #0e111b;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--text);
+    font-family: inherit;
+    text-align: left;
+    min-width: 108px;
+    transition: border-color .15s;
   }
-  .chart-card { grid-column: span 1; }
-  .chart-card.priority { grid-column: 1 / -1; }
-  .chart-card .head {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;
+  .asset-tab:hover { border-color: #3a4256; }
+  .asset-tab.active { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue) inset; }
+  .asset-tab .tab-name { font-weight: 700; font-size: 12.5px; display: flex; align-items: center; gap: 5px; }
+  .asset-tab .tab-star { color: var(--yellow); font-size: 11px; }
+  .asset-tab .tab-price { font-variant-numeric: tabular-nums; font-size: 12.5px; color: var(--dim); }
+  .asset-tab .tab-badge { align-self: flex-start; padding: 1px 8px; font-size: 9.5px; }
+
+  .main-chart-head {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 8px;
   }
-  .chart-card .head .name { font-weight: 700; font-size: 14px; }
-  .chart-card .head .price { font-variant-numeric: tabular-nums; font-size: 15px; margin-left: 8px; }
-  .chart-card .indicators { display: flex; gap: 12px; font-size: 11px; color: var(--dim); margin-bottom: 6px; flex-wrap: wrap; }
-  .chart-card .indicators span b { color: var(--text); }
-  .chart-card .reason { font-size: 11px; color: var(--dim); margin-top: 6px; min-height: 14px; }
-  .chart-container { width: 100%; }
-  .chart-card.priority .chart-container { height: 280px; }
-  .chart-card:not(.priority) .chart-container { height: 190px; }
+  .main-chart-head .name { font-weight: 700; font-size: 18px; }
+  .main-chart-head .price { font-variant-numeric: tabular-nums; font-size: 19px; margin-left: 10px; }
+  .main-indicators { display: flex; gap: 16px; font-size: 12px; color: var(--dim); margin-bottom: 8px; flex-wrap: wrap; }
+  .main-indicators span b { color: var(--text); }
+  .main-reason { font-size: 12px; color: var(--dim); margin-bottom: 10px; min-height: 16px; }
+  .chart-container { width: 100%; height: 460px; }
 
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   th, td { text-align: left; padding: 5px 6px; border-bottom: 1px solid var(--panel-border); white-space: nowrap; }
@@ -143,8 +157,7 @@
 
   @media (max-width: 1050px) {
     main { grid-template-columns: 1fr; }
-    .charts-grid { grid-template-columns: 1fr; }
-    .chart-card.priority { grid-column: auto; }
+    .chart-container { height: 340px; }
   }
 </style>
 </head>
@@ -163,9 +176,22 @@
 
 <main>
   <div class="side-stack">
-    <div class="panel">
+    <div class="panel chart-panel">
       <h2>Mercados en tiempo real</h2>
-      <div class="charts-grid" id="charts-grid"></div>
+      <div class="asset-tabs" id="asset-tabs"></div>
+
+      <div class="main-chart-head">
+        <div><span class="name" id="main-name">—</span><span class="price" id="main-price">—</span></div>
+        <span class="badge HOLD" id="main-signal">—</span>
+      </div>
+      <div class="main-indicators">
+        <span>RSI <b id="main-rsi">—</b></span>
+        <span>ADX <b id="main-adx">—</b></span>
+        <span>MACD hist <b id="main-macd">—</b></span>
+        <span>EMA9/21 <b id="main-ema">—</b></span>
+      </div>
+      <div class="main-reason" id="main-reason"></div>
+      <div class="chart-container" id="main-chart-container"></div>
     </div>
 
     <div class="panel">
@@ -210,48 +236,76 @@
 <script>
 const ASSET_KEYS = ["XAU/USD", "BTC/USD", "ETH/USD", "SOL/USD"];
 const PRIORITY_ASSET = "XAU/USD";
-const charts = {};
+let currentAsset = PRIORITY_ASSET;
 let serverClock = null;
+const lastAssetData = {};
 
-function createAssetCard(asset) {
-  const card = document.createElement("div");
-  card.className = "chart-card" + (asset === PRIORITY_ASSET ? " priority" : "");
-  card.innerHTML = `
-    <div class="head">
-      <div><span class="name">${asset}</span><span class="price" id="price-${cssId(asset)}">—</span></div>
-      <span class="badge HOLD" id="signal-${cssId(asset)}">—</span>
-    </div>
-    <div class="indicators">
-      <span>RSI <b id="rsi-${cssId(asset)}">—</b></span>
-      <span>ADX <b id="adx-${cssId(asset)}">—</b></span>
-      <span>MACD hist <b id="macd-${cssId(asset)}">—</b></span>
-      <span>EMA9/21 <b id="ema-${cssId(asset)}">—</b></span>
-    </div>
-    <div class="chart-container" id="chart-${cssId(asset)}"></div>
-    <div class="reason" id="reason-${cssId(asset)}"></div>
-  `;
-  document.getElementById("charts-grid").appendChild(card);
-
-  const container = document.getElementById(`chart-${cssId(asset)}`);
-  const chart = LightweightCharts.createChart(container, {
-    layout: { background: { color: "#12151f" }, textColor: "#8b93a6" },
-    grid: { vertLines: { color: "#1c2130" }, horzLines: { color: "#1c2130" } },
-    timeScale: { timeVisible: true, secondsVisible: false, borderColor: "#232838" },
-    rightPriceScale: { borderColor: "#232838" },
-    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-    autoSize: true,
-  });
-  const candleSeries = chart.addCandlestickSeries({
-    upColor: "#26a69a", downColor: "#ef5350", borderVisible: false,
-    wickUpColor: "#26a69a", wickDownColor: "#ef5350",
-  });
-  const ema9Series = chart.addLineSeries({ color: "#4c8bf5", lineWidth: 1 });
-  const ema21Series = chart.addLineSeries({ color: "#e0a72e", lineWidth: 1 });
-  charts[asset] = { chart, candleSeries, ema9Series, ema21Series };
-}
+const mainChart = LightweightCharts.createChart(document.getElementById("main-chart-container"), {
+  layout: { background: { color: "#12151f" }, textColor: "#8b93a6" },
+  grid: { vertLines: { color: "#1c2130" }, horzLines: { color: "#1c2130" } },
+  timeScale: { timeVisible: true, secondsVisible: false, borderColor: "#232838" },
+  rightPriceScale: { borderColor: "#232838" },
+  crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+  autoSize: true,
+});
+const mainCandleSeries = mainChart.addCandlestickSeries({
+  upColor: "#26a69a", downColor: "#ef5350", borderVisible: false,
+  wickUpColor: "#26a69a", wickDownColor: "#ef5350",
+});
+const mainEma9Series = mainChart.addLineSeries({ color: "#4c8bf5", lineWidth: 1 });
+const mainEma21Series = mainChart.addLineSeries({ color: "#e0a72e", lineWidth: 1 });
 
 function cssId(asset) {
   return asset.replace("/", "-");
+}
+
+function switchAsset(asset) {
+  currentAsset = asset;
+  renderMainPanel(lastAssetData[asset]);
+  mainChart.timeScale().fitContent();
+  document.querySelectorAll(".asset-tab").forEach(tab => {
+    tab.classList.toggle("active", tab.dataset.asset === asset);
+  });
+}
+
+function renderTabs() {
+  const bar = document.getElementById("asset-tabs");
+  bar.innerHTML = ASSET_KEYS.map(asset => `
+    <button class="asset-tab${asset === currentAsset ? " active" : ""}" data-asset="${asset}">
+      <span class="tab-name">${asset === PRIORITY_ASSET ? '<span class="tab-star">★</span>' : ""}${asset}</span>
+      <span class="tab-price" id="tab-price-${cssId(asset)}">—</span>
+      <span class="badge HOLD tab-badge" id="tab-signal-${cssId(asset)}">—</span>
+    </button>
+  `).join("");
+  bar.querySelectorAll(".asset-tab").forEach(tab => {
+    tab.addEventListener("click", () => switchAsset(tab.dataset.asset));
+  });
+}
+
+function renderMainPanel(a) {
+  if (!a || !a.has_data) {
+    document.getElementById("main-name").textContent = currentAsset;
+    document.getElementById("main-price").textContent = "sin datos todavía";
+    document.getElementById("main-signal").textContent = "—";
+    document.getElementById("main-reason").textContent = "";
+    return;
+  }
+  document.getElementById("main-name").textContent = a.asset;
+  document.getElementById("main-price").textContent = a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
+  const signalEl = document.getElementById("main-signal");
+  signalEl.textContent = a.signal;
+  signalEl.className = "badge " + a.signal;
+  document.getElementById("main-rsi").textContent = a.rsi.toFixed(1);
+  document.getElementById("main-adx").textContent = a.adx.toFixed(1);
+  document.getElementById("main-macd").textContent = a.macd_hist.toFixed(5);
+  document.getElementById("main-ema").textContent = `${a.ema9.toFixed(2)} / ${a.ema21.toFixed(2)}`;
+  document.getElementById("main-reason").textContent = a.reason;
+
+  if (a.candles && a.candles.length) {
+    mainCandleSeries.setData(a.candles.map(k => ({ time: k.time, open: k.open, high: k.high, low: k.low, close: k.close })));
+    mainEma9Series.setData(a.candles.filter(k => k.ema9 !== null).map(k => ({ time: k.time, value: k.ema9 })));
+    mainEma21Series.setData(a.candles.filter(k => k.ema21 !== null).map(k => ({ time: k.time, value: k.ema21 })));
+  }
 }
 
 function fmtMoney(v) {
@@ -269,29 +323,23 @@ function updateClockDisplay() {
 }
 
 function renderAsset(a) {
+  lastAssetData[a.asset] = a;
   const id = cssId(a.asset);
-  const priceEl = document.getElementById(`price-${id}`);
-  const signalEl = document.getElementById(`signal-${id}`);
-  const reasonEl = document.getElementById(`reason-${id}`);
-  if (!a.has_data) {
-    priceEl.textContent = "sin datos todavía";
-    signalEl.textContent = "—";
-    return;
-  }
-  priceEl.textContent = a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
-  signalEl.textContent = a.signal;
-  signalEl.className = "badge " + a.signal;
-  document.getElementById(`rsi-${id}`).textContent = a.rsi.toFixed(1);
-  document.getElementById(`adx-${id}`).textContent = a.adx.toFixed(1);
-  document.getElementById(`macd-${id}`).textContent = a.macd_hist.toFixed(5);
-  document.getElementById(`ema-${id}`).textContent = `${a.ema9.toFixed(2)} / ${a.ema21.toFixed(2)}`;
-  reasonEl.textContent = a.reason;
+  const tabPrice = document.getElementById(`tab-price-${id}`);
+  const tabSignal = document.getElementById(`tab-signal-${id}`);
+  if (!tabPrice || !tabSignal) return;
 
-  const c = charts[a.asset];
-  if (c && a.candles && a.candles.length) {
-    c.candleSeries.setData(a.candles.map(k => ({ time: k.time, open: k.open, high: k.high, low: k.low, close: k.close })));
-    c.ema9Series.setData(a.candles.filter(k => k.ema9 !== null).map(k => ({ time: k.time, value: k.ema9 })));
-    c.ema21Series.setData(a.candles.filter(k => k.ema21 !== null).map(k => ({ time: k.time, value: k.ema21 })));
+  if (!a.has_data) {
+    tabPrice.textContent = "sin datos";
+    tabSignal.textContent = "—";
+  } else {
+    tabPrice.textContent = a.price.toLocaleString("es-ES", { maximumFractionDigits: 4 });
+    tabSignal.textContent = a.signal;
+    tabSignal.className = "badge tab-badge " + a.signal;
+  }
+
+  if (a.asset === currentAsset) {
+    renderMainPanel(a);
   }
 }
 
@@ -381,7 +429,8 @@ async function poll() {
   }
 }
 
-ASSET_KEYS.forEach(createAssetCard);
+renderTabs();
+renderMainPanel(null);
 poll();
 setInterval(poll, 4000);
 setInterval(updateClockDisplay, 1000);
